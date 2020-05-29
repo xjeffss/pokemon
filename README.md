@@ -11,6 +11,8 @@ User Stories
 - When a user clicks on the name of the pokemon, they will be taken to that pokemon's `show` page, and will see the pokemon's name and image.
 
 
+## Day 1
+
 ### Set up your server
 
 - Create an express app that listens on port 3000. Ensure that you have installed the necessary npm packages to run an express server and render templates. You can refer back to old code and lessons, but try to recall the necessary steps before checking in old code. 
@@ -22,8 +24,8 @@ User Stories
 
 
 ### Set up your _'database'_
-- Create a file called `pokemon.js`
-- Inside of this file, put the following array of pokemon objects. This is your 'database' for tonight's homework
+- Create a file called `models/pokemon.js`
+- Inside of this file, put the following array of pokemon objects. This will be your database for this week.
 
 ```javascript
 const pokemon = [ 
@@ -67,6 +69,8 @@ const pokemon = [
 "Commit 2 - Connected my database, can see json in the browser"
 <hr>
 
+## Day 2
+
 ### Set up your index view
 
 - Instead of displaying json at your `/pokemon` route, you should serve an `index.ejs` file that displays a list of all the pokemon. Put the pokemon inside a `<ul>` with class name `pokemon`. 
@@ -101,6 +105,18 @@ const pokemon = [
    &#x1F534; The commit message should read: <br>
    "Commit 5 - added dynamic anchor tags to index.ejs "
 <hr>
+ 
+
+### Complete CRUD functionality
+
+Set up routes and templates to allow for full CRUD functionality. 
+
+- Users should be able to insert a new pokemon into the array using a form on a `new.ejs` page. Creation should be handled via a POST route to the `/pokemon` route.
+- Users should be able to edit an individual pokemon on an `edit.ejs` page accessed from the  `/pokemon/:id/edit` route. The updating should be handled via a POST request to the `/pokemon/:id` route.
+- Users should be able to delete a pokemon using a button provided on the show and index pages.
+- The final app should have what are known as the 7 RESTful routes. 
+
+## Day 3
 
 ### Style your app, step 1: static
 
@@ -120,18 +136,7 @@ const pokemon = [
 
 ## You finished!  Nice work. Submit your homework
 
-You can run `npm test` to confirm your app's functionality matches specs- be sure to export the app at the bottom of your server file so the tests can import it.  
-
-# Day Two
-
-### Complete CRUD functionality
-
-Set up routes and templates to allow for full CRUD functionality. 
-
-- Users should be able to insert a new pokemon into the array using a form on a `new.ejs` page. Creation should be handled via a POST route to the `/pokemon` route.
-- Users should be able to edit an individual pokemon on an `edit.ejs` page accessed from the  `/pokemon/:id/edit` route. The updating should be handled via a POST request to the `/pokemon/:id` route.
-- Users should be able to delete a pokemon using a button provided on the show and index pages.
-- The final app should have what are known as the 7 RESTful routes. 
+You can run `npm test` to confirm your app's functionality matches specs- be sure to export the app at the bottom of your server file so the tests can import it. 
 
 ## Hungry for more?
 
