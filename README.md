@@ -6,16 +6,14 @@ Make a Pokemon app that displays data inside server-side rendered views.
 
 ## App
 
-User Stories
-- When a user goes to the '/pokemon' route they will see an `index` of pokemon: the names of each pokemon rendered to the page.
-- When a user clicks on the name of the pokemon, they will be taken to that pokemon's `show` page, and will see the pokemon's name and image.
+Create a full CRUD app on Pokemon.
 
 
 ## Day 1
 
 ### Set up your server
 
-- Create an express app that listens on port 3000. Ensure that you have installed the necessary npm packages to run an express server and render templates. You can refer back to old code and lessons, but try to recall the necessary steps before checking in old code. 
+- Create an express app called `pokemon-app` that listens on port 3000. Ensure that you have installed the necessary npm packages to run an express server and render templates. You can refer back to old code and lessons, but try to recall the necessary steps before checking in old code. 
 
 <hr>
  &#x1F534; The commit message should read: <br>
@@ -24,8 +22,14 @@ User Stories
 
 
 ### Set up your _'database'_
-- Create a file called `models/pokemon.js`
-- Inside of this file, put the following array of pokemon objects. This will be your database for this week.
+
+- Create a file called `server.js`
+- Inside of this file, 
+	- Import express library
+	- Run the app on port `3000`
+	- Add the following array of pokemon objects. 
+
+This will be your database for this week.
 
 ```javascript
 const pokemon = [ 
@@ -60,39 +64,48 @@ const pokemon = [
 ];
 
 ```
-- Set up your 'database' so that it can be exported to your `server.js` and then be required by your `server.js`
-
-- create a get route `/pokemon` that will `res.send(pokemon)`, which will display your pokemon data as json in the browser
+<!--- Set up your 'database' so that it can be exported to your `server.js` and then be required by your `server.js`-->
 
 <hr>
 &#x1F534; The commit message should read: <br>
 "Commit 2 - Connected my database, can see json in the browser"
 <hr>
 
+### Create GET Routes
+
+- create a get route `/pokemon` that will `res.send(pokemon)`, which will display your pokemon data as json in the browser.
+- create another get route `/pokemon/:index` that will return only one pokemon on that index. For example, `/pokemon/0` should display the 0 indexed pokemon.
+
+<hr>
+&#x1F534; The commit message should read: <br>
+"Commit 3 - added GET APIs"
+<hr>
+
 ## Day 2
 
 ### Set up your index view
 
-- Instead of displaying json at your `/pokemon` route, you should serve an `index.ejs` file that displays a list of all the pokemon. Put the pokemon inside a `<ul>` with class name `pokemon`. 
-
-- Add some style to your list with a style tag, or, for an added challenge, look up how to serve static files in an express app and use a separate css file instead.
-  
-- **Stretch step, not required** : Choose a google font and add it to your html and inside your `<style>` tag
+- Instead of displaying json at your `/pokemon` route, you should serve an `index.ejs` file that displays a list of all the pokemon. Put the pokemon inside a `<ul>` with class name `pokemon`. Use a `for` loop to display all pokemon.
 
 <hr>
   &#x1F534; The commit message should read: <br>
-  "Commit 3 - index.ejs view rendered at pokemon route"
+  "Commit 4 - index.ejs view rendered at pokemon route"
 <hr>
+
+<!--- Add some style to your list with a style tag, or, for an added challenge, look up how to serve static files in an express app and use a separate css file instead.
+  
+- **Stretch step, not required** : Choose a google font and add it to your html and inside your `<style>` tag-->
+
 
 ### Set up your show route
 
-- Inside your `server.js`, add a new get route `/pokemon/:id`
-- This route should serve a template called `show.ejs` which displays the information of a specific pokemon according to their index in the pokemon array. For example, `/pokemon/0` should display the 0 indexed pokemon.
+- Inside your `server.js`, use already created get route `/pokemon/:id`
+- Update the API such that it serves a template called `show.ejs` which displays the information of a specific pokemon according to their index in the pokemon array. 
 - You may want to look up how to access route parameters in express.
 
 <hr>
    &#x1F534; The commit message should read: <br>
-   "Commit 4 - show view shows pokemon details "
+   "Commit 5 - show view shows pokemon details "
 <hr>
 
 
@@ -103,7 +116,7 @@ const pokemon = [
 
 <hr>
    &#x1F534; The commit message should read: <br>
-   "Commit 5 - added dynamic anchor tags to index.ejs "
+   "Commit 6 - added dynamic anchor tags to index.ejs "
 <hr>
  
 
@@ -112,9 +125,9 @@ const pokemon = [
 Set up routes and templates to allow for full CRUD functionality. 
 
 - Users should be able to insert a new pokemon into the array using a form on a `new.ejs` page. Creation should be handled via a POST route to the `/pokemon` route.
-- Users should be able to edit an individual pokemon on an `edit.ejs` page accessed from the  `/pokemon/:id/edit` route. The updating should be handled via a POST request to the `/pokemon/:id` route.
+- Users should be able to edit an individual pokemon on an `edit.ejs` page accessed from the  `/pokemon/:index/edit` route. The updating should be handled via a POST request to the `/pokemon/:index` route.
 - Users should be able to delete a pokemon using a button provided on the show and index pages.
-- The final app should have what are known as the 7 RESTful routes. 
+ 
 
 ## Day 3
 
@@ -133,6 +146,10 @@ Set up routes and templates to allow for full CRUD functionality.
 &#x1F534; The commit message should read: <br>
   "Commit 7 - The app is styled"
 <hr>
+
+## Day 4
+
+## Day 5
 
 ## You finished!  Nice work. Submit your homework
 
