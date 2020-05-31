@@ -131,13 +131,36 @@ Set up routes and templates to allow for full CRUD functionality.
 
 ## Day 3
 
+Today you will add controller and router to the existing pokemon app to make it MVC compliant.
+
+### Create Controller
+
+- Create `controllers` folder to the app
+- Add `index.js` and `fruits.js` to it
+- Import and export the necessary files, folders and/or libraries
+
+### Create Router
+- Create `routes` folder in the app
+- Add `index.js` and `fruits.js` to it
+- Import and export the necessary files, folders and/or libraries.
+
+### Refactor `server.js`
+- Refactor `server.js` and move all the APIs into the controller and routes.
+- Use Express middleware to call the router
+- Remove all the APIs once above is done.
+
+## Day 4
+
+
+## Weekend Bonus
+
 ### Style your app, step 1: static
 
  - Set up your app to be able to use CSS like we did in class.  Use a dummy (i.e. just set a background color) CSS declaration.  Remember: you need express.static() middleware. (also remember that you don't need to npm install anything for this particular middleware because its part of express. But for others you do.)
 
 <hr>
 &#x1F534; The commit message should read: <br>
-  "Commit 6 - set up serving of static files so we can add CSS"
+  "set up serving of static files so we can add CSS"
 <hr>
 
 ### Style your app 
@@ -147,13 +170,10 @@ Set up routes and templates to allow for full CRUD functionality.
   "Commit 7 - The app is styled"
 <hr>
 
-## Day 4
+
 
 ## Day 5
 
-## You finished!  Nice work. Submit your homework
-
-You can run `npm test` to confirm your app's functionality matches specs- be sure to export the app at the bottom of your server file so the tests can import it. 
 
 ## Hungry for more?
 
