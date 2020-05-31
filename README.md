@@ -151,8 +151,19 @@ Today you will add controller and router to the existing pokemon app to make it 
 
 ## Day 4
 
+Today we added `User` model to our fruits app, just like that you now have to add `Player` model to this app. 
 
-## Weekend Bonus
+These are few required functionality that must be implemented for a user.
+
+- Add Signup and Login functionality.
+- Show Player's profile after signup and login
+- Player can edit own profile
+- A player can also delete itself
+
+
+## Weekend
+
+Before starting with this, make sure that your app meets all the above requirements. It performs all the functionalities that you been asked to do so far.
 
 ### Style your app, step 1: static
 
@@ -167,12 +178,21 @@ Today you will add controller and router to the existing pokemon app to make it 
 
 <hr>
 &#x1F534; The commit message should read: <br>
-  "Commit 7 - The app is styled"
+  "Commit - The app is styled"
 <hr>
 
+### Bonus
 
+Treat this as your own app, except for what's been asked above, 
 
-## Day 5
+- Add other RESTful routes for either `Player` or `Pokemon` model. 
+- Add other views to your app. 
+- Redirect to different pages. 
+- Style it more.
+
+Let your imagination run, see what more you can do with this app.
+
+<!--## Day 5
 
 
 ## Hungry for more?
@@ -189,3 +209,4 @@ Today you will add controller and router to the existing pokemon app to make it 
 3. Sign up for [Code Wars](https://www.codewars.com/) and/or [HackerRank](https://www.hackerrank.com/) and/or [Project Euler](https://projecteuler.net/) and try out a challenge (or a few!) in order to keep honing your JavaScript skills! These are the same types of questions people ask in interview coding challenges.
 
 
+-->
