@@ -99,7 +99,7 @@ const pokemon = [
 
 ### Set up your show route
 
-- Inside your `server.js`, use already created get route `/pokemon/:id`
+- Inside your `server.js`, use already created get route `/pokemon/:index`
 - Update the API such that it serves a template called `show.ejs` which displays the information of a specific pokemon according to their index in the pokemon array. 
 - You may want to look up how to access route parameters in express.
 
