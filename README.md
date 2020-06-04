@@ -136,12 +136,12 @@ Today you will add controller and router to the existing pokemon app to make it 
 ### Create Controller
 
 - Create `controllers` folder to the app
-- Add `index.js` and `fruits.js` to it
+- Add `index.js` and `pokemon.js` to it
 - Import and export the necessary files, folders and/or libraries
 
 ### Create Router
 - Create `routes` folder in the app
-- Add `index.js` and `fruits.js` to it
+- Add `index.js` and `pokemon.js` to it
 - Import and export the necessary files, folders and/or libraries.
 
 ### Refactor `server.js`
@@ -151,7 +151,7 @@ Today you will add controller and router to the existing pokemon app to make it 
 
 ## Day 4
 
-Today we added `User` model to our fruits app, just like that you now have to add `Player` model to this app. 
+Today we added `Player` model to our pokemon app, just like that you now have to add `Player` model to this app. 
 
 These are few required functionality that must be implemented for a user.
 
