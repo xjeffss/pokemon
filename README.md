@@ -192,6 +192,68 @@ Treat this as your own app, except for what's been asked above,
 
 Let your imagination run, see what more you can do with this app.
 
+## Day 5
+
+So far you have the app with the static data but you don't have a database yet to persist it in the database. Just like today, you will persist `pokemon` model into the Postgres database.
+
+1. Make sure to install the libraries locally in the `pokemon-app`,
+
+	```
+	npm install sequelize --save
+	npm install pg --save
+	```
+2. After that run `sequelize init` in `pokemon-app` to create the desired folders.
+3. Add required configuration in `config/config.json`
+	
+	```
+	{
+	  "development": {
+	    "username": "postgres",
+	    "password": "postgres",
+	    "database": "pokemon_dev",
+	    "host": "127.0.0.1",
+	    "dialect": "postgres",
+	    "operatorsAliases": false
+	  }
+	}
+	```
+4. Make sure to move any file other than `index.js` out of the `models` folder. The only file present in `models` folder should be `index.js`. Update the import paths of the files moved out of `index.js` in `controllers` folder.
+5. Generate `Pokemon` model using Sequelize CLI `model:generate` command and create all the fields you need with it.
+6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values.
+	
+	```
+	createdAt: {
+      	defaultValue: new Date(),
+        allowNull: false,
+        type: Sequelize.DATE
+    },
+    updatedAt: {
+      	defaultValue: new Date(),
+        allowNull: false,
+        type: Sequelize.DATE
+    }
+	```
+7. Run the migrations `sequelize db:migrate`
+8. Generate database seed file for `Pokemon`, `sequelize seed:generate --name demo-pokemon`
+9. Fill the created empty seeders file.
+10. Seed the database table by running `sequelize db:seed:all`
+11. Confirm is psql,
+	
+	```
+	psql -U postgres
+	\c pokemon_dev
+	\dt
+	SELECT * FROM "Pokemons";
+	```
+12. Import `Pokemon` model in the `controllers/pokemon.js`
+	
+	```
+	const Pokemon = require('../models').Pokemon;
+	```
+13. Now, update all the controller functions one by one with the `Pokemon` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `pokemon.id` instead of using index.
+
+
+
 <!--## Day 5
 
 
