@@ -13,7 +13,7 @@ Create a full CRUD app on Pokemon.
 
 ### Set up your server
 
-- Create an express app called `pokemon-app` that listens on port 3000. Ensure that you have installed the necessary npm packages to run an express server and render templates. You can refer back to old code and lessons, but try to recall the necessary steps before checking in old code. 
+- Create an express app called `pokemon-app` that listens on port 3000. Ensure that you have installed the necessary npm packages to run an express server and render templates. You can refer back to old code and lessons, but try to recall the necessary steps before checking in old code. Be ok with making mistakes!
 
 <hr>
  &#x1F534; The commit message should read: <br>
@@ -24,41 +24,41 @@ Create a full CRUD app on Pokemon.
 ### Set up your _'database'_
 
 - Create a file called `server.js`
-- Inside of this file, 
+- Inside of this file,
 	- Import express library
 	- Run the app on port `3000`
-	- Add the following array of pokemon objects. 
+	- Add the following array of pokemon objects.
 
 This will be your database for this week.
 
 ```javascript
-const pokemon = [ 
+const pokemon = [
   {
-    name: "Bulbasaur", 
+    name: "Bulbasaur",
     img: "http://img.pokemondb.net/artwork/bulbasaur.jpg"
   },
   {
-    name: "Ivysaur", 
+    name: "Ivysaur",
     img: "http://img.pokemondb.net/artwork/ivysaur.jpg"
   },
   {
-    name: "Venusaur", 
+    name: "Venusaur",
     img: "http://img.pokemondb.net/artwork/venusaur.jpg"
   },
   {
-    name: "Charmander", 
+    name: "Charmander",
     img: "http://img.pokemondb.net/artwork/charmander.jpg"
   },
   {
-    name: "Charizard", 
+    name: "Charizard",
     img: "http://img.pokemondb.net/artwork/charizard.jpg"
   },
   {
-    name: "Squirtle", 
+    name: "Squirtle",
     img: "http://img.pokemondb.net/artwork/squirtle.jpg"
   },
   {
-    name: "Wartortle", 
+    name: "Wartortle",
     img: "http://img.pokemondb.net/artwork/wartortle.jpg"
   }
 ];
@@ -93,14 +93,14 @@ const pokemon = [
 <hr>
 
 <!--- Add some style to your list with a style tag, or, for an added challenge, look up how to serve static files in an express app and use a separate css file instead.
-  
+
 - **Stretch step, not required** : Choose a google font and add it to your html and inside your `<style>` tag-->
 
 
 ### Set up your show route
 
 - Inside your `server.js`, use already created get route `/pokemon/:index`
-- Update the API such that it serves a template called `show.ejs` which displays the information of a specific pokemon according to their index in the pokemon array. 
+- Update the API such that it serves a template called `show.ejs` which displays the information of a specific pokemon according to their index in the pokemon array.
 - You may want to look up how to access route parameters in express.
 
 <hr>
@@ -118,16 +118,16 @@ const pokemon = [
    &#x1F534; The commit message should read: <br>
    "Commit 6 - added dynamic anchor tags to index.ejs "
 <hr>
- 
+
 
 ### Complete CRUD functionality
 
-Set up routes and templates to allow for full CRUD functionality. 
+Set up routes and templates to allow for full CRUD functionality.
 
 - Users should be able to insert a new pokemon into the array using a form on a `new.ejs` page. Creation should be handled via a POST route to the `/pokemon` route.
 - Users should be able to edit an individual pokemon on an `edit.ejs` page accessed from the  `/pokemon/:index/edit` route. The updating should be handled via a POST request to the `/pokemon/:index` route.
 - Users should be able to delete a pokemon using a button provided on the show and index pages.
- 
+
 
 ## Day 3
 
@@ -151,7 +151,7 @@ Today you will add controller and router to the existing pokemon app to make it 
 
 ## Day 4
 
-Today we added `Player` model to our pokemon app, just like that you now have to add `Player` model to this app. 
+Today we added `Player` model to our pokemon app, just like that you now have to add `Player` model to this app.
 
 These are few required functionality that must be implemented for a user.
 
@@ -174,7 +174,7 @@ Before starting with this, make sure that your app meets all the above requireme
   "set up serving of static files so we can add CSS"
 <hr>
 
-### Style your app 
+### Style your app
 
 <hr>
 &#x1F534; The commit message should read: <br>
@@ -183,11 +183,11 @@ Before starting with this, make sure that your app meets all the above requireme
 
 ### Bonus
 
-Treat this as your own app, except for what's been asked above, 
+Treat this as your own app, except for what's been asked above,
 
-- Add other RESTful routes for either `Player` or `Pokemon` model. 
-- Add other views to your app. 
-- Redirect to different pages. 
+- Add other RESTful routes for either `Player` or `Pokemon` model.
+- Add other views to your app.
+- Redirect to different pages.
 - Style it more.
 
 Let your imagination run, see what more you can do with this app.
@@ -204,7 +204,7 @@ So far you have the app with the static data but you don't have a database yet t
 	```
 2. After that run `sequelize init` in `pokemon-app` to create the desired folders.
 3. Add required configuration in `config/config.json`
-	
+
 	```
 	{
 	  "development": {
@@ -220,7 +220,7 @@ So far you have the app with the static data but you don't have a database yet t
 4. Make sure to move any file other than `index.js` out of the `models` folder. The only file present in `models` folder should be `index.js`. Update the import paths of the files moved out of `index.js` in `controllers` folder.
 5. Generate `Pokemon` model using Sequelize CLI `model:generate` command and create all the fields you need with it.
 6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values.
-	
+
 	```
 	createdAt: {
       	defaultValue: new Date(),
@@ -238,7 +238,7 @@ So far you have the app with the static data but you don't have a database yet t
 9. Fill the created empty seeders file.
 10. Seed the database table by running `sequelize db:seed:all`
 11. Confirm is psql,
-	
+
 	```
 	psql -U postgres
 	\c pokemon_dev
@@ -246,7 +246,7 @@ So far you have the app with the static data but you don't have a database yet t
 	SELECT * FROM "Pokemons";
 	```
 12. Import `Pokemon` model in the `controllers/pokemon.js`
-	
+
 	```
 	const Pokemon = require('../models').Pokemon;
 	```
