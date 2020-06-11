@@ -218,6 +218,9 @@ So far you have the app with the static data but you don't have a database yet t
 	}
 	```
 4. Make sure to move any file other than `index.js` out of the `models` folder. The only file present in `models` folder should be `index.js`. Update the import paths of the files moved out of `index.js` in `controllers` folder.
+
+### Create Pokemon Model
+
 5. Generate `Pokemon` model using Sequelize CLI `model:generate` command and create all the fields you need with it.
 6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values.
 
@@ -235,7 +238,7 @@ So far you have the app with the static data but you don't have a database yet t
 	```
 7. Run the migrations `sequelize db:migrate`
 8. Generate database seed file for `Pokemon`, `sequelize seed:generate --name demo-pokemon`
-9. Fill the created empty seeders file.
+9. Fill the created empty seeders file by adding `bulkInsert` on objects.
 10. Seed the database table by running `sequelize db:seed:all`
 11. Confirm is psql,
 
@@ -252,7 +255,42 @@ So far you have the app with the static data but you don't have a database yet t
 	```
 13. Now, update all the controller functions one by one with the `Pokemon` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `pokemon.id` instead of using index.
 
+### Create Player Model
 
+5. Generate `Player` model using Sequelize CLI `model:generate` command and create all the fields you need with it.
+6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values. Also, make `username` unique.
+
+	```
+	username: {       type: Sequelize.STRING,       unique: true    },
+	createdAt: {
+      	defaultValue: new Date(),
+        allowNull: false,
+        type: Sequelize.DATE
+    },
+    updatedAt: {
+      	defaultValue: new Date(),
+        allowNull: false,
+        type: Sequelize.DATE
+    }
+	```
+7. Run the migrations `sequelize db:migrate`
+8. Generate database seed file for `Player`, `sequelize seed:generate --name demo-player`
+9. Fill the created empty seeders file by adding `bulkInsert` on objects.
+10. Seed the database table by running `sequelize db:seed --seed <xxxxxxxxx-demo-player.js>`
+11. Confirm is psql,
+
+	```
+	psql -U postgres
+	\c pokemon_dev
+	\dt
+	SELECT * FROM "Players";
+	```
+12. Import `Player` model in the `controllers/pokemon.js`
+
+	```
+	const Player = require('../models').Player;
+	```
+13. Now, update all the controller functions one by one with the `Player` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `player.id` instead of using the index.
 
 <!--## Day 5
 
