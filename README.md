@@ -285,12 +285,143 @@ So far you have the app with the static data but you don't have a database yet t
 	\dt
 	SELECT * FROM "Players";
 	```
-12. Import `Player` model in the `controllers/pokemon.js`
+12. Import `Player` model in the `controllers/player.js`
 
 	```
 	const Player = require('../models').Player;
 	```
 13. Now, update all the controller functions one by one with the `Player` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `player.id` instead of using the index.
+
+## Day 6
+Today you will work on building associations between different models. So far you have a `Pokemon` and `Player` model.
+
+### Create Team Model
+
+Let's create a new model `Team` first. The only field `Team` will have is `name` which will be a string.
+ 
+5. Generate `Team ` model using Sequelize CLI `model:generate` command and create `name` field which will be a string.
+6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values. Also, make `name` not null.
+
+	```
+	name: {       type: Sequelize.STRING,       allowNull: false    },
+	createdAt: {
+      	defaultValue: new Date(),
+        allowNull: false,
+        type: Sequelize.DATE
+    },
+    updatedAt: {
+      	defaultValue: new Date(),
+        allowNull: false,
+        type: Sequelize.DATE
+    }
+	```
+7. Run the migrations `sequelize db:migrate`
+8. Generate database seed file for `Team`, `sequelize seed:generate --name demo-team`
+9. Fill the created empty seeders file by adding `bulkInsert` on objects.
+10. Seed the database table by running `sequelize db:seed --seed <xxxxxxxxx-demo-team.js>`
+11. Confirm is psql,
+
+	```
+	psql -U postgres
+	\c pokemon_dev
+	\dt
+	SELECT * FROM "Teams";
+	```
+### Add teamId to Player
+
+Now that `Team` model has been created we can go ahead and add `teamId` column to `Players` table.
+
+1. Create a migration file to add `teamId` to the `Players` table.
+
+	```bash
+		sequelize migration:generate --name add-teamId-to-players
+	```
+2. Inside the newly created migration file, add code to add the column to the table.
+	
+	```bash
+	  up: (queryInterface, Sequelize) => {
+	    return queryInterface.addColumn('Players', 
+	    'teamId', 
+	    { 
+	    	type: Sequelize.INTEGER 
+	    });
+	  },
+	``` 
+	
+3. Run `sequelize db:migrate` to run the new migration file.
+4. In the `models/player.js`, make sure to add the new column so that our app knows about it.
+	
+	
+	```js
+	const Player = sequelize.define('Player', {
+	    name: DataTypes.STRING,
+	    username: DataTypes.STRING,
+	    password: DataTypes.STRING,
+	    teamId: DataTypes.INTEGER
+  	}, {});
+ 	```
+5. Reseed the `seeders/<TIMESTAMP>-demo-player.js` with a some team ids. Make sure the teamIds you use exist in the `Teams` table.
+
+```
+	'use strict';	module.exports = {  up: (queryInterface, Sequelize) => {    return queryInterface.bulkInsert('Players', [      {        name:'Tony Stark',        username: 'ironman',        password: 'prettyawesome',        teamId: 1      },      {        name:'Clark Kent',        username: 'superman',        password: `canfly`,        teamId: 2      },      {        name:'Bruce Wayne',        username: 'batman',        password: 'hasgadgets',        teamId: 3      }    ])  },  down: (queryInterface, Sequelize) => {    	return queryInterface.bulkDelete('Players', null, {});  }};
+```
+	
+6. Once the above changes our made, undo player seeded date `sequelize db:seed:undo --seed 20200608030632-demo-player.js`
+7. After this, run `sequelize db:seed --seed xxxxxxxxx-demo-player.js` to reseed the `Players` data.
+
+
+### hasMany Association
+
+Now, you will build the association between `Team` and `Player`. A team can have multiple players whereas a Player can be part of one team. Team has one-to-many relationship with Player.
+
+That means, **Team hasMany Players** and each **Player belongsTo one Team**. 
+
+1. In the `models/player.js` file, add the association for an `Player.hasMany(models.Team)`.
+	
+	```
+	Player.associate = function(models) {    	belongsTo(models.Team, { foreignKey: 'teamId' })  	};
+	```
+2. In the `models/team.js` file, add the association for an `Team.hasMany(models.Player)`.
+
+	```
+	Team.associate = function(models) {    	Team.hasMany(models.Player, { foreignKey: 'teamId' })  	};
+	```
+	
+### Update Player Controller & View
+
+1. `include: [Team]` in the Player to access team detail from the Player object.
+2. `findAll()` teams in the controller which renders `profile.ejs`.
+2. Display all teams in a dropdown on Player profile page for the player to select the team and edit the profile.
+
+![](./images/edit-player.png)
+
+
+### Create Join Table
+
+Each `Player` can catch multiple pokemons and each `Pokemon` can be caught by multiple players. That means `Player` **has many-to-many relationship** with `Pokemon`.
+
+1. Generate model for the join table, `sequelize model:create --name PlayerPokemon --attributes playerId:integer,pokemonId:integer`
+2. Update the migration file
+	
+	```
+	'use strict';module.exports = {  up: (queryInterface, Sequelize) => {    return queryInterface.createTable('PlayerPokemons', {      id: {        allowNull: false,        autoIncrement: true,        primaryKey: true,        type: Sequelize.INTEGER      },      playerId: {        type: Sequelize.INTEGER,        allowNull: false      },      pokemonId: {        type: Sequelize.INTEGER,        allowNull: false      },      createdAt: {        allowNull: false,        defaultValue: new Date(),        type: Sequelize.DATE      },      updatedAt: {        allowNull: false,        defaultValue: new Date(),        type: Sequelize.DATE      }    });  },  down: (queryInterface, Sequelize) => {    return queryInterface.dropTable('PlayerPokemons');  }};
+	```
+3. Run the migration `sequelize db:migrate`
+
+### belongsToMany Association
+
+Update `Pokemon` model
+
+```
+Pokemon.associate = function(models) {    Pokemon.belongsToMany(models.Player, {      through: 'PlayerPokemon',      foreignKey: 'pokemonId',      otherKey: 'playerId'    });};
+```
+
+Update `Player` model
+
+```
+Player.associate = function(models) {    Player.belongsTo(models.Team, { foreignKey: 'teamId' })    Player.belongsToMany(models.Pokemon, {      through: 'PlayerPokemon',      foreignKey: 'playerId',      otherKey: 'pokemonId'    });};
+```	
+
 
 <!--## Day 5
 
