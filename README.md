@@ -92,10 +92,6 @@ const pokemon = [
   "Commit 4 - index.ejs view rendered at pokemon route"
 <hr>
 
-<!--- Add some style to your list with a style tag, or, for an added challenge, look up how to serve static files in an express app and use a separate css file instead.
-
-- **Stretch step, not required** : Choose a google font and add it to your html and inside your `<style>` tag-->
-
 
 ### Set up your show route
 
@@ -128,7 +124,15 @@ Set up routes and templates to allow for full CRUD functionality.
 - Users should be able to edit an individual pokemon on an `edit.ejs` page accessed from the  `/pokemon/:index/edit` route. The updating should be handled via a POST request to the `/pokemon/:index` route.
 - Users should be able to delete a pokemon using a button provided on the show and index pages.
 
+### Bonus
 
+**Stretch step, not required**
+
+Add some style to your list with a style tag, or, for an added challenge, look up how to serve static files in an express app and use a separate css file instead.
+
+Choose a google font and add it to your html and inside your `<style>` tag
+
+<!--
 ## Day 3
 
 Today you will add controller and router to the existing pokemon app to make it MVC compliant.
@@ -421,7 +425,7 @@ Update `Player` model
 ```
 Player.associate = function(models) {    Player.belongsTo(models.Team, { foreignKey: 'teamId' })    Player.belongsToMany(models.Pokemon, {      through: 'PlayerPokemon',      foreignKey: 'playerId',      otherKey: 'pokemonId'    });};
 ```	
-
+-->
 
 <!--## Day 5
 
