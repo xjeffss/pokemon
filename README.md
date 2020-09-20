@@ -132,7 +132,7 @@ Add some style to your list with a style tag, or, for an added challenge, look u
 
 Choose a google font and add it to your html and inside your `<style>` tag
 
-<!--
+
 ## Day 3
 
 Today you will add controller and router to the existing pokemon app to make it MVC compliant.
@@ -153,17 +153,19 @@ Today you will add controller and router to the existing pokemon app to make it 
 - Use Express middleware to call the router
 - Remove all the APIs once above is done.
 
+<!--
 ## Day 4
 
-Today we added `Player` model to our pokemon app, just like that you now have to add `Player` model to this app.
+Today we added `User` model to our fruit app and just like that you now have to add `Player` model to this app.
 
-These are few required functionality that must be implemented for a user.
+These are few required functionality that must be implemented for a player.
 
 - Add Signup and Login functionality.
 - Show Player's profile after signup and login
 - Player can edit own profile
 - A player can also delete itself
 
+As a bonus you can make your make user friendly bu adding links to navigate back and forth to other pages. Make the flow 
 
 ## Weekend
 
