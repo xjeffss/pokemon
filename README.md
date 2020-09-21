@@ -158,7 +158,7 @@ Today you will add controller and router to the existing pokemon app to make it 
 
 - Continue to style your app
 - Add another field to each pokemon, along with `name` and `img`
-- Add edit and delete 
+- Add edit and delete options on Pokemon Show page instead of homepage.
 - While editing pokemon, give user an option to upload an image instead of editing a link to it.
 
 <!--
