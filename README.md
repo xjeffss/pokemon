@@ -162,7 +162,7 @@ Today you will add controller and router to the existing pokemon app to make it 
 - Add edit and delete options on Pokemon Show page instead of homepage.
 - While editing pokemon, give user an option to upload an image instead of editing a link to it.
 
-<!--
+
 ## Day 4
 
 Today we added `User` model to our fruit app and just like that you now have to add `Player` model to this app.
@@ -174,38 +174,17 @@ These are few required functionality that must be implemented for a player.
 - Player can edit own profile
 - A player can also delete itself
 
-As a bonus you can make your make user friendly bu adding links to navigate back and forth to other pages. Make the flow 
-
-## Weekend
-
-Before starting with this, make sure that your app meets all the above requirements. It performs all the functionalities that you been asked to do so far.
-
-### Style your app, step 1: static
-
- - Set up your app to be able to use CSS like we did in class.  Use a dummy (i.e. just set a background color) CSS declaration.  Remember: you need express.static() middleware. (also remember that you don't need to npm install anything for this particular middleware because its part of express. But for others you do.)
-
-<hr>
-&#x1F534; The commit message should read: <br>
-  "set up serving of static files so we can add CSS"
-<hr>
-
-### Style your app
-
-<hr>
-&#x1F534; The commit message should read: <br>
-  "Commit - The app is styled"
-<hr>
-
 ### Bonus
+- Style all the new views you have added for the `Player` model
+- Make you app user friendly by adding links to navigate back and forth to other pages.
+- Refactor your code such that instead of having separate forms for create and edit of pokemon, you can do it using same view/html form for both.
+- Add password hashing during signup. Read about what it is. The external library you can use to implement that is `bcryptjs`.
+- If you do successfully hash the password during signup then make sure during login you are using `compare()` to compare the hashed password with password string.
 
-Treat this as your own app, except for what's been asked above,
 
-- Add other RESTful routes for either `Player` or `Pokemon` model.
-- Add other views to your app.
-- Redirect to different pages.
-- Style it more.
+Lastly, let your imagination run, see what more you can do with this app. Own it!!
 
-Let your imagination run, see what more you can do with this app.
+<!--
 
 ## Day 5
 
