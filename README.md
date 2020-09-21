@@ -157,7 +157,8 @@ Today you will add controller and router to the existing pokemon app to make it 
 **Stretch step, not required**
 
 - Continue to style your app
-- Add another field to each pokemon, along with `name` and `img`
+- Add another field like `type` to each pokemon, along with `name` and `img`
+- After the `type` field is added, create an API to give user an option to get all pokemon objects by `type`.
 - Add edit and delete options on Pokemon Show page instead of homepage.
 - While editing pokemon, give user an option to upload an image instead of editing a link to it.
 
