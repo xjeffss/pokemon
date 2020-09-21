@@ -153,6 +153,14 @@ Today you will add controller and router to the existing pokemon app to make it 
 - Use Express middleware to call the router
 - Remove all the APIs once above is done.
 
+### Bonus
+**Stretch step, not required**
+
+- Continue to style your app
+- Add another field to each pokemon, along with `name` and `img`
+- Add edit and delete 
+- While editing pokemon, give user an option to upload an image instead of editing a link to it.
+
 <!--
 ## Day 4
 
