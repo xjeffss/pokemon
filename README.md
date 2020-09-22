@@ -178,6 +178,7 @@ These are few required functionality that must be implemented for a player.
 - Style all the new views you have added for the `Player` model
 - Make you app user friendly by adding links to navigate back and forth to other pages.
 - Refactor your code such that instead of having separate forms for create and edit of pokemon, you can do it using same view/html form for both.
+- If you added the `type` field in Day3's bonus challenge, instead of manually typing it, have a User select the type using a dropdown, in both create and edit page.
 - Add password hashing during signup. Read about what it is. The external library you can use to implement that is `bcryptjs`.
 - If you do successfully hash the password during signup then make sure during login you are using `compare()` to compare the hashed password with password string.
 
