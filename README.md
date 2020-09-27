@@ -185,8 +185,6 @@ These are few required functionality that must be implemented for a player.
 
 Lastly, let your imagination run, see what more you can do with this app. Own it!!
 
-<!--
-
 ## Day 5
 
 So far you have the app with the static data but you don't have a database yet to persist it in the database. Just like today, you will persist `pokemon` model into the Postgres database.
@@ -194,8 +192,8 @@ So far you have the app with the static data but you don't have a database yet t
 1. Make sure to install the libraries locally in the `pokemon-app`,
 
 	```
-	npm install sequelize --save
-	npm install pg --save
+	npm install sequelize
+	npm install pg
 	```
 2. After that run `sequelize init` in `pokemon-app` to create the desired folders.
 3. Add required configuration in `config/config.json`
@@ -203,8 +201,6 @@ So far you have the app with the static data but you don't have a database yet t
 	```
 	{
 	  "development": {
-	    "username": "postgres",
-	    "password": "postgres",
 	    "database": "pokemon_dev",
 	    "host": "127.0.0.1",
 	    "dialect": "postgres",
@@ -235,11 +231,10 @@ So far you have the app with the static data but you don't have a database yet t
 8. Generate database seed file for `Pokemon`, `sequelize seed:generate --name demo-pokemon`
 9. Fill the created empty seeders file by adding `bulkInsert` on objects.
 10. Seed the database table by running `sequelize db:seed:all`
-11. Confirm is psql,
+11. Confirm in the database,
 
 	```
-	psql -U postgres
-	\c pokemon_dev
+	psql pokemon_dev
 	\dt
 	SELECT * FROM "Pokemons";
 	```
@@ -248,7 +243,32 @@ So far you have the app with the static data but you don't have a database yet t
 	```
 	const Pokemon = require('../models').Pokemon;
 	```
-13. Now, update all the controller functions one by one with the `Pokemon` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `pokemon.id` instead of using index.
+13. Now, update all the controller functions one by one with the `Pokemon` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `pokemon.id` instead of using `index`.
+
+### Create Player Model
+
+5. Generate `Player` model using Sequelize CLI `model:generate` command and create all the fields you need with it.
+6. Update the generated migration file such that both `createdAt` and `updatedAt` fields have default values. Also, put `unique & not null` constraints on `username` and just `not null` constraint on `password`.
+7. Run the migrations `sequelize db:migrate`
+8. Generate database seed file for `Player`, `sequelize seed:generate --name demo-player`
+9. Fill the created empty seeders file by adding `bulkInsert` on objects.
+10. Seed the database table by running `sequelize db:seed --seed <xxxxxxxxx-demo-player.js>`
+11. Confirm is psql,
+
+	```
+	psql pokemon_dev
+	\dt
+	SELECT * FROM "Players";
+	```
+12. Import `Player` model in the `controllers/player.js`
+
+	```
+	const Player = require('../models').Player;
+	```
+13. Now, update all the controller functions one by one with the `Player` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `player.id` instead of using the `index`.
+
+
+<!--
 
 ### Create Player Model
 
@@ -256,7 +276,10 @@ So far you have the app with the static data but you don't have a database yet t
 6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values. Also, make `username` unique.
 
 	```
-	username: {       type: Sequelize.STRING,       unique: true    },
+	username: {
+       type: Sequelize.STRING,
+       unique: true
+    },
 	createdAt: {
       	defaultValue: new Date(),
         allowNull: false,
@@ -298,7 +321,10 @@ Let's create a new model `Team` first. The only field `Team` will have is `name`
 6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values. Also, make `name` not null.
 
 	```
-	name: {       type: Sequelize.STRING,       allowNull: false    },
+	name: {
+       type: Sequelize.STRING,
+       allowNull: false
+    },
 	createdAt: {
       	defaultValue: new Date(),
         allowNull: false,
@@ -358,7 +384,36 @@ Now that `Team` model has been created we can go ahead and add `teamId` column t
 5. Reseed the `seeders/<TIMESTAMP>-demo-player.js` with a some team ids. Make sure the teamIds you use exist in the `Teams` table.
 
 ```
-	'use strict';	module.exports = {  up: (queryInterface, Sequelize) => {    return queryInterface.bulkInsert('Players', [      {        name:'Tony Stark',        username: 'ironman',        password: 'prettyawesome',        teamId: 1      },      {        name:'Clark Kent',        username: 'superman',        password: `canfly`,        teamId: 2      },      {        name:'Bruce Wayne',        username: 'batman',        password: 'hasgadgets',        teamId: 3      }    ])  },  down: (queryInterface, Sequelize) => {    	return queryInterface.bulkDelete('Players', null, {});  }};
+	'use strict';
+
+	module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.bulkInsert('Players', [
+      {
+        name:'Tony Stark',
+        username: 'ironman',
+        password: 'prettyawesome',
+        teamId: 1
+      },
+      {
+        name:'Clark Kent',
+        username: 'superman',
+        password: `canfly`,
+        teamId: 2
+      },
+      {
+        name:'Bruce Wayne',
+        username: 'batman',
+        password: 'hasgadgets',
+        teamId: 3
+      }
+    ])
+  },
+
+  down: (queryInterface, Sequelize) => {
+    	return queryInterface.bulkDelete('Players', null, {});
+  }
+};
 ```
 	
 6. Once the above changes our made, undo player seeded date `sequelize db:seed:undo --seed 20200608030632-demo-player.js`
@@ -374,12 +429,16 @@ That means, **Team hasMany Players** and each **Player belongsTo one Team**.
 1. In the `models/player.js` file, add the association for an `Player.hasMany(models.Team)`.
 	
 	```
-	Player.associate = function(models) {    	belongsTo(models.Team, { foreignKey: 'teamId' })  	};
+	Player.associate = function(models) {
+    	belongsTo(models.Team, { foreignKey: 'teamId' })
+  	};
 	```
 2. In the `models/team.js` file, add the association for an `Team.hasMany(models.Player)`.
 
 	```
-	Team.associate = function(models) {    	Team.hasMany(models.Player, { foreignKey: 'teamId' })  	};
+	Team.associate = function(models) {
+    	Team.hasMany(models.Player, { foreignKey: 'teamId' })
+  	};
 	```
 	
 ### Update Player Controller & View
@@ -399,7 +458,40 @@ Each `Player` can catch multiple pokemons and each `Pokemon` can be caught by mu
 2. Update the migration file
 	
 	```
-	'use strict';module.exports = {  up: (queryInterface, Sequelize) => {    return queryInterface.createTable('PlayerPokemons', {      id: {        allowNull: false,        autoIncrement: true,        primaryKey: true,        type: Sequelize.INTEGER      },      playerId: {        type: Sequelize.INTEGER,        allowNull: false      },      pokemonId: {        type: Sequelize.INTEGER,        allowNull: false      },      createdAt: {        allowNull: false,        defaultValue: new Date(),        type: Sequelize.DATE      },      updatedAt: {        allowNull: false,        defaultValue: new Date(),        type: Sequelize.DATE      }    });  },  down: (queryInterface, Sequelize) => {    return queryInterface.dropTable('PlayerPokemons');  }};
+	'use strict';
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('PlayerPokemons', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      playerId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      pokemonId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      createdAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        defaultValue: new Date(),
+        type: Sequelize.DATE
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('PlayerPokemons');
+  }
+};
 	```
 3. Run the migration `sequelize db:migrate`
 
@@ -408,13 +500,26 @@ Each `Player` can catch multiple pokemons and each `Pokemon` can be caught by mu
 Update `Pokemon` model
 
 ```
-Pokemon.associate = function(models) {    Pokemon.belongsToMany(models.Player, {      through: 'PlayerPokemon',      foreignKey: 'pokemonId',      otherKey: 'playerId'    });};
+Pokemon.associate = function(models) {
+    Pokemon.belongsToMany(models.Player, {
+      through: 'PlayerPokemon',
+      foreignKey: 'pokemonId',
+      otherKey: 'playerId'
+    });
+};
 ```
 
 Update `Player` model
 
 ```
-Player.associate = function(models) {    Player.belongsTo(models.Team, { foreignKey: 'teamId' })    Player.belongsToMany(models.Pokemon, {      through: 'PlayerPokemon',      foreignKey: 'playerId',      otherKey: 'pokemonId'    });};
+Player.associate = function(models) {
+    Player.belongsTo(models.Team, { foreignKey: 'teamId' })
+    Player.belongsToMany(models.Pokemon, {
+      through: 'PlayerPokemon',
+      foreignKey: 'playerId',
+      otherKey: 'pokemonId'
+    });
+};
 ```	
 -->
 
