@@ -268,47 +268,7 @@ So far you have the app with the static data but you don't have a database yet t
 13. Now, update all the controller functions one by one with the `Player` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `player.id` instead of using the `index`.
 
 
-<!--
 
-### Create Player Model
-
-5. Generate `Player` model using Sequelize CLI `model:generate` command and create all the fields you need with it.
-6. Update the generated migrations file such that both `createdAt` and `updatedAt` fields have default values. Also, make `username` unique.
-
-	```
-	username: {
-       type: Sequelize.STRING,
-       unique: true
-    },
-	createdAt: {
-      	defaultValue: new Date(),
-        allowNull: false,
-        type: Sequelize.DATE
-    },
-    updatedAt: {
-      	defaultValue: new Date(),
-        allowNull: false,
-        type: Sequelize.DATE
-    }
-	```
-7. Run the migrations `sequelize db:migrate`
-8. Generate database seed file for `Player`, `sequelize seed:generate --name demo-player`
-9. Fill the created empty seeders file by adding `bulkInsert` on objects.
-10. Seed the database table by running `sequelize db:seed --seed <xxxxxxxxx-demo-player.js>`
-11. Confirm is psql,
-
-	```
-	psql -U postgres
-	\c pokemon_dev
-	\dt
-	SELECT * FROM "Players";
-	```
-12. Import `Player` model in the `controllers/player.js`
-
-	```
-	const Player = require('../models').Player;
-	```
-13. Now, update all the controller functions one by one with the `Player` model. Be sure to test the app after each API is updated. You may have to update your views wherever needed with `player.id` instead of using the index.
 
 ## Day 6
 Today you will work on building associations between different models. So far you have a `Pokemon` and `Player` model.
@@ -340,11 +300,10 @@ Let's create a new model `Team` first. The only field `Team` will have is `name`
 8. Generate database seed file for `Team`, `sequelize seed:generate --name demo-team`
 9. Fill the created empty seeders file by adding `bulkInsert` on objects.
 10. Seed the database table by running `sequelize db:seed --seed <xxxxxxxxx-demo-team.js>`
-11. Confirm is psql,
+11. Confirm in psql,
 
 	```
-	psql -U postgres
-	\c pokemon_dev
+	psql pokemon_dev
 	\dt
 	SELECT * FROM "Teams";
 	```
@@ -358,37 +317,16 @@ Now that `Team` model has been created we can go ahead and add `teamId` column t
 		sequelize migration:generate --name add-teamId-to-players
 	```
 2. Inside the newly created migration file, add code to add the column to the table.
-	
-	```bash
-	  up: (queryInterface, Sequelize) => {
-	    return queryInterface.addColumn('Players', 
-	    'teamId', 
-	    { 
-	    	type: Sequelize.INTEGER 
-	    });
-	  },
-	``` 
-	
 3. Run `sequelize db:migrate` to run the new migration file.
 4. In the `models/player.js`, make sure to add the new column so that our app knows about it.
-	
-	
-	```js
-	const Player = sequelize.define('Player', {
-	    name: DataTypes.STRING,
-	    username: DataTypes.STRING,
-	    password: DataTypes.STRING,
-	    teamId: DataTypes.INTEGER
-  	}, {});
- 	```
 5. Reseed the `seeders/<TIMESTAMP>-demo-player.js` with a some team ids. Make sure the teamIds you use exist in the `Teams` table.
 
 ```
-	'use strict';
+'use strict';
 
-	module.exports = {
+module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Players', [
+    await queryInterface.bulkInsert('Players', [
       {
         name:'Tony Stark',
         username: 'ironman',
@@ -426,17 +364,17 @@ Now, you will build the association between `Team` and `Player`. A team can have
 
 That means, **Team hasMany Players** and each **Player belongsTo one Team**. 
 
-1. In the `models/player.js` file, add the association for an `Player.hasMany(models.Team)`.
+1. In the `models/player.js` file, add the association for a `Player.belongsTo(models.Team)`.
 	
 	```
-	Player.associate = function(models) {
-    	belongsTo(models.Team, { foreignKey: 'teamId' })
+	static associate(models) {
+    	Player.belongsTo(models.Team, { foreignKey: 'teamId' })
   	};
 	```
 2. In the `models/team.js` file, add the association for an `Team.hasMany(models.Player)`.
 
 	```
-	Team.associate = function(models) {
+	static associate(models) {
     	Team.hasMany(models.Player, { foreignKey: 'teamId' })
   	};
 	```
@@ -444,11 +382,20 @@ That means, **Team hasMany Players** and each **Player belongsTo one Team**.
 ### Update Player Controller & View
 
 1. `include: [Team]` in the Player to access team detail from the Player object.
-2. `findAll()` teams in the controller which renders `profile.ejs`.
-2. Display all teams in a dropdown on Player profile page for the player to select the team and edit the profile.
+2. `findAll()` teams in the controller which renders `profile.ejs` to display all teams in a dropdown on Player profile page for the player to select the team and edit the profile.
 
 ![](./images/edit-player.png)
 
+### Bonus
+
+- Create a router and a controller for `Team` model.
+- Create APIs to perform CRUD on the `Team` model.
+- Create a view for the `Team` to list all the teams.
+- Create a show page for a team that also lists all the players currently added to that team.
+- As always keep styling all the new views added to the app.
+
+
+<!--
 
 ### Create Join Table
 
@@ -521,9 +468,8 @@ Player.associate = function(models) {
     });
 };
 ```	
--->
 
-<!--## Day 5
+## Day 5
 
 
 ## Hungry for more?
