@@ -272,6 +272,9 @@ So far you have the app with the static data but you don't have a database yet t
 
 
 ## Day 6
+
+## Part 1
+
 Today you will work on building associations between different models. So far you have a `Pokemon` and `Player` model.
 
 ### Create Team Model
@@ -395,96 +398,25 @@ That means, **Team hasMany Players** and each **Player belongsTo one Team**.
 - Create a show page for a team that also lists all the players currently added to that team.
 - As always keep styling all the new views added to the app.
 
-
-<!--
+## Part 2
 
 ### Create Join Table
 
 Each `Player` can catch multiple pokemons and each `Pokemon` can be caught by multiple players. That means `Player` **has many-to-many relationship** with `Pokemon`.
 
 1. Generate model for the join table, `sequelize model:create --name PlayerPokemon --attributes playerId:integer,pokemonId:integer`
-2. Update the migration file
-	
-	```
-	'use strict';
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('PlayerPokemons', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      playerId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      pokemonId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-      createdAt: {
-        allowNull: false,
-        defaultValue: new Date(),
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        defaultValue: new Date(),
-        type: Sequelize.DATE
-      }
-    });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('PlayerPokemons');
-  }
-};
-	```
+2. Update the migration file, add `not null` constraint to `playerId` and `pokemonId` columns. Also add `unique` constraint on the combination of these 2 columns such that no player can add the same pokemon more than once.
 3. Run the migration `sequelize db:migrate`
+4. Update the `Pokemon` and `Player` models to add `belongsToMany` association. Make sure to give the right `foreignKey` and `otherKey` in both models.
+5. On Pokemon show page, list all the players that have added the Pokemon.
+6. On Player profile, list all the Pokemons the player has already added.
+5. Give player an option during profile edit to add a pokemon using a dropdown. 
 
-### belongsToMany Association
+### Bonus
 
-Update `Pokemon` model
-
-```
-Pokemon.associate = function(models) {
-    Pokemon.belongsToMany(models.Player, {
-      through: 'PlayerPokemon',
-      foreignKey: 'pokemonId',
-      otherKey: 'playerId'
-    });
-};
-```
-
-Update `Player` model
-
-```
-Player.associate = function(models) {
-    Player.belongsTo(models.Team, { foreignKey: 'teamId' })
-    Player.belongsToMany(models.Pokemon, {
-      through: 'PlayerPokemon',
-      foreignKey: 'playerId',
-      otherKey: 'pokemonId'
-    });
-};
-```	
-
-## Day 5
-
-
-## Hungry for more?
-
-1. Style your application with flexbox, or [Bootstrap!](https://getbootstrap.com/docs/4.1/getting-started/introduction/), a CSS library created by Twitter to make using the [960px grid system](https://960.gs/demo.html) a little easier. Or there's a substantially more lightweight 960px-grid-system-based answer to Bootstrap called [Skeleton](http://getskeleton.com/). You could also jazz up your app by adding some hand-rolled flourishes with CSS animations, and/or some sweet client-side jQuery and/or ....??? u pick???.....!
-
-2. Learn more about Pseudo Selectors to become a CSS Genius
-  - [pseudo selector links](https://www.youtube.com/watch?v=YMZGPqNDn_s&list=PLdnONIhPScST0Vy4LrIZiYKpFNoxgyH7J&index=17) ~ 5 minutes
-  - [pseudo selector children](https://www.youtube.com/watch?v=tMCahu7H-fA&list=PLdnONIhPScST0Vy4LrIZiYKpFNoxgyH7J&index=18) ~ 4 minutes
-  - [pseudo selector n-th child](https://www.youtube.com/watch?v=yFmwjX9oGt8&list=PLdnONIhPScST0Vy4LrIZiYKpFNoxgyH7J&index=19) ~ 3 minutes
-  - [pseudo selector sibling status and `not()`](https://www.youtube.com/watch?v=XyXUjEP9m-8&list=PLdnONIhPScST0Vy4LrIZiYKpFNoxgyH7J&index=20) ~ 5 minutes
-  - a little glitchy, but [See just how deeply nerdy some people get about CSS](https://css-tricks.com/roman-empire-made-pure-css-connect-4-possible/)
-
-3. Sign up for [Code Wars](https://www.codewars.com/) and/or [HackerRank](https://www.hackerrank.com/) and/or [Project Euler](https://projecteuler.net/) and try out a challenge (or a few!) in order to keep honing your JavaScript skills! These are the same types of questions people ask in interview coding challenges.
-
-
--->
+- Add another view to show a list of teams, players added to each team, and pokemon added to each limit. Let your imagination run, style this view, use a tree to represent this data, whatever comes to your fancy.
+- Give player an option to remove a pokemon.
+- Refactor the dropdown to add a pokemon with an option of adding/removing multiple pokemons by a player. Think about using checkboxes or multiple select in a dropdown or any other way you want to implement.
+- Allow a player to create a team, keep track of the player by adding a new column `playerId` in `Team` model.
+- The player who creates a team is already added to that team.
+- Lastly, keep making your app look more and more awesome by styling it.
