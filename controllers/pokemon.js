@@ -1,4 +1,4 @@
-const pokemon = require('../models/pokemon.js')
+const pokemon = require('../models/pokemon.js');
 
 const index = (req, res) => {
     res.render("index.ejs", {
@@ -8,12 +8,12 @@ const index = (req, res) => {
 
 const addPoke = (req, res) => {
     pokemon.push(req.body)
-    res.redirect('/pokemon/')
+    res.redirect('/pokemon')
 }
 
 const deletePoke = (req, res) => {
     pokemon.splice(req.params.index, 1)
-    res.redirect('/pokemon/')
+    res.redirect('/pokemon')
 }
 
 const editPoke = (req, res) => {

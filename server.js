@@ -6,12 +6,15 @@ const routes = require('./routes');
 
 const app = express();
 //app is an object
-app.use('/pokemon', routes.pokemon);
+// app.use((req, res, next)=>{
+//   console.log('I run for all routes');
+//   next();
+//   });
+
 app.use(methodOveride('_method'));
 app.use(express.urlencoded( {extended: true}));
 
-
-
+app.use('/pokemon',routes.pokemon);
 
 // const pokemon = [
 //     {
