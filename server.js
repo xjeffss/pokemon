@@ -15,6 +15,7 @@ app.use(methodOveride('_method'));
 app.use(express.urlencoded( {extended: true}));
 
 app.use('/pokemon',routes.pokemon);
+app.use('/players', routes.players);
 
 // const pokemon = [
 //     {

@@ -1,3 +1,4 @@
 module.exports = {
-    pokemon:require('./pokemon')
+    pokemon:require('./pokemon'),
+    players: require('./players'),
 };
