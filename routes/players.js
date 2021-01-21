@@ -9,6 +9,8 @@ router.get('/login', ctrl.players.loginPlayer);
 router.post('/login', ctrl.players.login);
 router.get('/profile', ctrl.players.playerProfile);
 router.get('/profile/:index', ctrl.players.profile);
+router.delete('/profile:index', ctrl.players.deletePlayer);
 router.get('/profile/:index/edit', ctrl.players.playerEdit)
+
 
 module.exports = router;

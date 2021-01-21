@@ -43,7 +43,11 @@ const login = (req, res) => {
     let index = players.findIndex(
       players => (req.body.username === players.username
         && req.body.password === players.password)
-       );   res.redirect(`/player/profile/${index}`);
+       );   res.redirect(`/players/profile/${index}`);
+    }
+const deletePlayer = (req, res) => {
+       players.splice(req.params.index, 1)
+        res.redirect('players/index.ejs')
     }
 
 module.exports = {
@@ -55,6 +59,7 @@ module.exports = {
     profile,
     loginPlayer,
     login,
+    deletePlayer
 
 
 };
