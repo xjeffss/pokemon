@@ -1,43 +1,81 @@
-const players = require('../../../players');
+const Player = require('../models').Player;
 
 const playerIndex = (req, res) => {
-    res.render('players/index.ejs', {
-        players: players
+    Player.findAll ()
+    .then(Player => {
+        res.render('players/index.ejs', {
+        player: Player
+    })
+ 
     });
 }
 
 const postPlayer = (req, res) => {
-    players.push(req.body);
-    res.redirect(`/players/profile/${players.length-1}`)
+    Player.create(req.body)
+    .then(newPlayer => {
+    res.redirect(`/players/profile/${newPlayer.id}`)
+    })
+
 }
 
 const playerSignup = (req, res) => {
+    Player.create(req.body)
+    .then()
     res.render('players/signup.ejs')
 }
+
 const playerProfile = (req, res) => {
-    res.render('players/profile.ejs', {
-        players: players[req.params.index],
+    Player.findByPk(req.params.index, {
+        include: [{
+            model: Player,
+            attributes: ['id', 'name']
+        }]
+    })
+    .then(playerProfile=> {
+        res.render('players/profile.ejs', {
+        players: playerProfile[req.params.index],
         index: req.params.index
+    })
     })
 }
 
 const playerEdit = (req, res)=> {
-	res.render('players/edit.ejs', 
-		{ 	players: players[req.params.index], //the fruit object
-			index: req.params.index //... and its index in the array
-		}
+    Player.findByPk(req.params.index)
+    .then(player => {
+        	res.render('players/edit.ejs', 
+		{ 	players: player[req.params.index], //the fruit object
+			index: req.params.index 
+    })
+	}
 	);
 };
 
 const profile = (req, res) => {
-    res.render('players/profile.ejs', {
-    players: players[req.params.index],
-    index: req.params.index
+    Player.findByPk(req.params.index, {
+        include: [{
+            model: Player,
+            attributes: ['id', 'name']
+        }]
+    })
+    .then(playerProfile => {
+        res.render('players/profile.ejs', {
+        players: playerProfile[req.params.index],
+       })
+
     })
 }
 const loginPlayer = (req, res) => {
-    res.render('players/login.ejs')
+    Player.findOne({
+        where: {
+            username: req.body.username,
+            password: req.body.password
+        }
+    })
+    .then(foundPlayer=> {
+        res.redirect(`players.login.ejs`);
+    })
 }
+
 
 const login = (req, res) => {
     let index = players.findIndex(
@@ -46,8 +84,13 @@ const login = (req, res) => {
        );   res.redirect(`/players/profile/${index}`);
     }
 const deletePlayer = (req, res) => {
-       players.splice(req.params.index, 1)
-        res.redirect('players/index.ejs')
+       Player.destroy({
+           where: {
+               id:req.params.index}
+            })
+            .then(() => {
+                 res.redirect('players/index.ejs')
+            })
     }
 
 module.exports = {

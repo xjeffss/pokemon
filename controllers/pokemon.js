@@ -12,7 +12,7 @@ const index = (req, res) => {
 const addPoke = (req, res) => {
     Pokemon.create(req.body)
     .then(newPokemon => {
-         res.redirect('/pokemon');
+         res.redirect(`/pokemon/${newPokemon}`);
     })
 }
 
