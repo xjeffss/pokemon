@@ -1,4 +1,4 @@
-const players = require('../models/players');
+const players = require('../../../players');
 
 const playerIndex = (req, res) => {
     res.render('players/index.ejs', {

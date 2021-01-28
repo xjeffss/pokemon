@@ -1,33 +1,49 @@
-const pokemon = require('../models/pokemon.js');
+const Pokemon = require('../models').Pokemon;
 
 const index = (req, res) => {
-    res.render("index.ejs", {
-        pokemon:pokemon
-    });
-}
-
-const addPoke = (req, res) => {
-    pokemon.push(req.body)
-    res.redirect('/pokemon')
-}
-
-const deletePoke = (req, res) => {
-    pokemon.splice(req.params.index, 1)
-    res.redirect('/pokemon')
-}
-
-const editPoke = (req, res) => {
-    res.render('edit.ejs', {
-        poke: pokemon[req.params.index],
-        index: req.params.index
+    Pokemon.findAll()
+    .then(Pokemon => {
+           res.render("index.ejs", {
+        pokemon: Pokemon
+    }); 
     })
 }
 
+const addPoke = (req, res) => {
+    Pokemon.create(req.body)
+    .then(newPokemon => {
+         res.redirect('/pokemon');
+    })
+}
+
+const deletePoke = (req, res) => {
+    Pokemon.destroy({ where: { id:req.params.index } })
+    .then(() => {
+        res.redirect('/pokemon')
+    })
+
+}
+
+const editPoke = (req, res) => {
+    Pokemon.findByPk(req.params.index)
+    .then(pokemon=> {
+        res.render('edit.ejs', {
+        poke: pokemon[req.params.index],
+        index: req.params.index,
+    });
+    }
+    )
+}
+
 const showPoke = (req, res) => {
-    res.render('show.ejs', {
-        poke:pokemon[req.params.index],
-    }); 
-};
+    Pokemon.findByPk(req.params.index)
+        .then(pokemon => {
+          res.render('show.ejs', {
+        poke:pokemon,
+    })
+})
+    }; 
+
 module.exports = {
     index,
     addPoke,
