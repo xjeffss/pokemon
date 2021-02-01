@@ -1,4 +1,6 @@
 const Pokemon = require('../models').Pokemon;
+const Team = require('../models').Team;
+const Player = require('../models').Player;
 
 const index = (req, res) => {
     Pokemon.findAll()
@@ -36,7 +38,9 @@ const editPoke = (req, res) => {
 }
 
 const showPoke = (req, res) => {
-    Pokemon.findByPk(req.params.index)
+    Pokemon.findByPk(req.params.index, {
+        include :[Player]
+    })
         .then(pokemon => {
           res.render('show.ejs', {
         poke:pokemon,

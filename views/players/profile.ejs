@@ -9,22 +9,42 @@
 <body>
         <h1>Welcome <%=players.name%></h1>
         
-        <form>
-        Name: <%=players.name%><br/>
+    <form action='/players/profile/<%=players.id%>?_method=PUT' method='POST'>
+        Name: <input type='text' name='name' value='<%=players.name%>'/><br/>
 		<!--  NOTE: the form is pre-populated with values for the server-->
-		Username: <%=players.username%><br/>
-		Password: <%=players.password%><br/>
-
+		Username: <input type='text' name='username' value='<%=players.username%>'/><br/>
+		Password: <input type='text' name='password' value='<%=players.password%>'/><br/>
+         <br/>
+        Team: <select name="teamId">
+                <% for (let i = 0; i<teams.length; i++) {%>
+                    <option value = "" disabled selected hidden <%=players.Team.name%></option>
+                    <option value="<%=teams[i].id%>" selected=<%=teams[i].id%>><%=teams[i].name%>
+                    </option>
+            <% } %>
+        </select>
         <br/>
-        <nav>
-            <a href="../edit.ejs">Edit</a> 
+        Pokemon: <select name="pokemon"
+        <% for (let i = 0; i<pokemon.length; i++) {%>
+            <option value="<%=pokemon[i].id%>" selected=<%=pokemon[i].id%>><%=pokemon[i].name%>
+            </option>
+            <% } %>
+         <input type='submit' value='Edit'/>
+    </form>
 
-        </nav>
-        <form action="../profile:<%=index%>?_method=DELETE" method="POST">
+        <form action="/players/profile/<%=players.id%>?_method=DELETE" method="POST">
             <input type="submit" value="DELETE"/>
         </form>
-	
-        </form>
+<h2><%=players.name%> owns these Pokemon:</h2>
+  <% for (let i = 0; i<players.Pokemons.length; i++) {%>
+
+    <li>
+            <a href="/pokemon/<%=players.Pokemons[i].id%>"><%=players.Pokemons[i].name%></a>
+    </li>
+    <% } %>
+    <br/>
+    <br/>
+
+    <a href="/pokemon"> View Pokemon</a>
 
 </body>
 </html>

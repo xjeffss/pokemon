@@ -10,6 +10,14 @@
         and looks like this
         <br/>
         <img src=<%=poke.img%> ><img/>
-
+        <br/>
+        It is added by 
+        <% for(let i=0; i<poke.Players.length; i++) {%>
+            <li>
+            <%=poke.Players[i].name%>
+            </li>
+            <br>
+            <% } %>
+            
     </body>
 </html>    

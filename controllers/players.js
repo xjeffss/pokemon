@@ -1,4 +1,7 @@
 const Player = require('../models').Player;
+const Team = require('../models').Team;
+const Pokemon = require('../models').Pokemon;
+
 
 const playerIndex = (req, res) => {
     Player.findAll ()
@@ -6,90 +9,101 @@ const playerIndex = (req, res) => {
         res.render('players/index.ejs', {
         player: Player
     })
- 
     });
 }
+
 
 const postPlayer = (req, res) => {
     Player.create(req.body)
     .then(newPlayer => {
-    res.redirect(`/players/profile/${newPlayer.id}`)
+    res.redirect(`profile/${newPlayer.id}`)
     })
 
 }
 
 const playerSignup = (req, res) => {
-    Player.create(req.body)
-    .then()
     res.render('players/signup.ejs')
 }
 
-const playerProfile = (req, res) => {
-    Player.findByPk(req.params.index, {
-        include: [{
-            model: Player,
-            attributes: ['id', 'name']
-        }]
-    })
-    .then(playerProfile=> {
-        res.render('players/profile.ejs', {
-        players: playerProfile[req.params.index],
-        index: req.params.index
-    })
-    })
-}
+// const playerProfile = (req, res) => {
+//     Player.findByPk(req.params.index)
+//     .then(playerProfile => {
+//         res.render('players/profile.ejs', {
+//         players: playerProfile[req.params.index],
+//        })
+
+//     })
+// }
 
 const playerEdit = (req, res)=> {
-    Player.findByPk(req.params.index)
-    .then(player => {
-        	res.render('players/edit.ejs', 
-		{ 	players: player[req.params.index], //the fruit object
-			index: req.params.index 
+    console.log(req.body)
+    Player.update(req.body,{
+        where: { 
+            id: req.params.index
+        },
+        returning: true
+        })
+        .then(editPlayer => {
+            Pokemon.findByPk(req.body.pokemon)
+            .then(choosePokemon =>{
+                Player.findByPk(req.params.index)
+                .then(chosenPlayer => {
+                    chosenPlayer.addPokemon(choosePokemon);
+                    // console.log(Pokemon.name)
+                res.redirect(`/players/profile/${req.params.index}`)
+                })
+            })
+        	; 
     })
-	}
-	);
-};
+    }
 
 const profile = (req, res) => {
+
     Player.findByPk(req.params.index, {
-        include: [{
-            model: Player,
-            attributes: ['id', 'name']
-        }]
+        include: [Pokemon, {
+            
+            model: Team,
+            attributes:['id', 'name']
+        }] 
     })
     .then(playerProfile => {
-        res.render('players/profile.ejs', {
-        players: playerProfile[req.params.index],
-       })
-
+        console.log(Pokemon.name)
+        Team.findAll().then(teamProfile => {
+            Pokemon.findAll().then(allPokemon => {
+            res.render('players/profile.ejs', {
+            pokemon: allPokemon,
+            players: playerProfile,
+            teams: teamProfile
+          })
+        })
     })
+}) 
 }
 const loginPlayer = (req, res) => {
+  res.render('players/login.ejs')
+    }
+
+
+
+const login = (req, res) => {
     Player.findOne({
         where: {
             username: req.body.username,
             password: req.body.password
         }
     })
-    .then(foundPlayer=> {
-        res.redirect(`players.login.ejs`);
+    .then(foundPlayer=> { 
+        res.redirect(`profile/${foundPlayer.id}`);
     })
 }
-
-
-const login = (req, res) => {
-    let index = players.findIndex(
-      players => (req.body.username === players.username
-        && req.body.password === players.password)
-       );   res.redirect(`/players/profile/${index}`);
-    }
 const deletePlayer = (req, res) => {
-       Player.destroy({
+    Player.destroy({
            where: {
                id:req.params.index}
             })
             .then(() => {
-                 res.redirect('players/index.ejs')
+                 res.redirect('/players'); 
+                 console.log("hello)")
             })
     }
 
@@ -97,7 +111,6 @@ module.exports = {
     postPlayer,
     playerIndex,
     playerSignup,
-    playerProfile,
     playerEdit,
     profile,
     loginPlayer,
